@@ -257,7 +257,17 @@ class ArrayRef(Node):
         :param subscript: dimension of the array.
         :param coord: declaration code position.
         """
-        pass
+        self.name = name
+        self.subscript = subscript
+        self.coord = coord
+    
+    def children(self):
+        nodelist = []
+        if self.name is not None:
+            nodelist.append(("name", self.name))
+        if self.subscript is not None:
+            nodelist.append(("subscript", self.subscript))
+        return tuple(nodelist)
 
 
 class Assert(Node):
@@ -269,8 +279,14 @@ class Assert(Node):
         :param expr: boolean expression being asserted.
         :param coord: code position.
         """
-        pass
-
+        self.expr = expr
+        self.coord = coord
+    
+    def children(self):
+        nodelist = []
+        if self.expr is not None:
+            nodelist.append(("expr", self.expr))
+        return tuple(nodelist)
 
 class Assignment(Node):
 
@@ -309,16 +325,16 @@ class BinaryOp(Node):
         :param coord: code position.
         """
         self.op = op
-        self.lvalue = left
-        self.rvalue = right
+        self.left = left
+        self.right = right
         self.coord = coord
 
     def children(self):
         nodelist = []
-        if self.lvalue is not None:
-            nodelist.append(("lvalue", self.lvalue))
-        if self.rvalue is not None:
-            nodelist.append(("rvalue", self.rvalue))
+        if self.left is not None:
+            nodelist.append(("left", self.left))
+        if self.right is not None:
+            nodelist.append(("right", self.right))
         return tuple(nodelist)
 
 
@@ -404,7 +420,14 @@ class DeclList(Node):
         :param decls: list of declarations.
         :param coord: code position.
         """
-        pass
+        self.decls = decls
+        self.coord = coord
+
+    def children(self):
+        nodelist = []
+        for i, child in enumerate(self.decls or []):
+            nodelist.append(("decls[%d]" % i, child))
+        return tuple(nodelist)  
 
 
 class EmptyStatement(Node):
@@ -501,7 +524,18 @@ class FuncDecl(DeclType):
         :param type: function return type.
         :param coord: code position.
         """
-        pass
+        self.params = params
+        self.type = type
+        self.coord = coord
+    
+    def children(self):
+        nodelist = []
+        if self.params is not None:
+            nodelist.append(("params",self.params))
+        if self.type is not None:
+            nodelist.append(("type", self.type))
+        return tuple(nodelist)
+
 
 
 class FuncDef(Node):
@@ -515,8 +549,20 @@ class FuncDef(Node):
         :param body: function compound body.
         :param coord: code position.
         """
-        pass
-
+        self.type = type
+        self.decl = decl
+        self.body = body
+        self.coord = coord
+    
+    def children(self):
+        nodelist = []
+        if self.type is not None:
+            nodelist.append(("type",self.type))
+        if self.decl is not None:
+            nodelist.append(("decl", self.decl))
+        if self.body is not None:
+            nodelist.append(("body", self.body))
+        return tuple(nodelist)
 
 class GlobalDecl(Node):
 
@@ -564,7 +610,20 @@ class If(Node):
         :param iffalse: compound block to execute on false statement.
         :param coord: code position.
         """
-        pass
+        self.cond = cond
+        self.iftrue = iftrue
+        self.iffalse= iffalse
+        self.coord = coord
+
+    def children(self):
+        nodelist = []
+        if self.cond is not None:
+            nodelist.append(("cond",self.cond))
+        if self.iftrue is not None:
+            nodelist.append(("iftrue", self.iftrue))
+        if self.iffalse is not None:
+            nodelist.append(("iffalse", self.iffalse))
+        return tuple(nodelist)
 
 
 class InitList(Node):
@@ -578,7 +637,6 @@ class InitList(Node):
         """
         self.exprs = exprs
         self.coord = coord
-        self.value = None
 
     def children(self):
         nodelist = []
@@ -596,7 +654,14 @@ class ParamList(Node):
         :param params: list of parameter declarations.
         :param coord: code position.
         """
-        pass
+        self.params = params
+        self.coord = coord
+
+    def children(self):
+        nodelist = []
+        for i, child in enumerate(self.params or []):
+            nodelist.append(("params[%d]" % i, child))
+        return tuple(nodelist)
 
 
 class Print(Node):
@@ -608,7 +673,14 @@ class Print(Node):
         :param expr: expression to be printed.
         :param coord: code position.
         """
-        pass
+        self.expr = expr
+        self.coord = coord
+    
+    def children(self):
+        nodelist = []
+        if self.expr is not None:
+            nodelist.append(("expr", self.expr))
+        return tuple(nodelist)
 
 
 class Program(Node):
@@ -639,7 +711,14 @@ class Read(Node):
         :param names: IDs where read values should be stored.
         :param coord: code position.
         """
-        pass
+        self.names = names
+        self.coord = coord
+
+    def children(self):
+        nodelist = []
+        if self.names is not None:
+            nodelist.append(("names",self.names))
+        return tuple(nodelist)
 
 
 class Return(Node):
@@ -651,8 +730,16 @@ class Return(Node):
         :param expr: expression whose result will be returned.
         :param coord: code position.
         """
-        pass
+        self.expr = expr
+        self.coord = coord
+    
+    def children(self):
+        nodelist = []
+        if self.expr is not None:
+            nodelist.append(("expr",self.expr))
+        return tuple(nodelist)
 
+    
 
 class Type(Node):
 
@@ -663,7 +750,11 @@ class Type(Node):
         :param name: primitive type name (int, char, ...).
         :param coord: code position.
         """
-        pass
+        self.name = name
+        self.coord = coord
+    
+    def children(self):
+        return ()
 
 
 class UnaryOp(Node):
@@ -675,7 +766,15 @@ class UnaryOp(Node):
         :param op: unary operator (!, +, -, ...)
         :param expr: expression whose value will be modified by the operator.
         """
-        pass
+        self.op = op
+        self.expr = expr
+        self.coord = coord
+
+    def children(self):
+        nodelist = []
+        if self.expr is not None:
+            nodelist.append(("expr", self.expr))
+        return tuple(nodelist)
 
 
 class VarDecl(DeclType):
@@ -744,4 +843,14 @@ class While(Node):
         :param body: compound representing the loop body.
         :param coord: code position.
         """
-        pass
+        self.cond = cond
+        self.body = body
+        self.coord = coord
+
+    def children(self):
+        nodelist = []
+        if self.cond is not None:
+            nodelist.append(("cond",self.cond))
+        if self.body is not None:
+            nodelist.append(("body",self.body))
+        return tuple(nodelist)

@@ -26,8 +26,27 @@ IntType = uCType(
     rel_ops={"==", "!=", "<", ">", "<=", ">="},
     assign_ops={"="},
 )
-# TODO: add other basic types
-# CharType = uCType("char", ...)
+
+CharType = uCType(
+    "char",
+    rel_ops={"==", "!="},
+    assign_ops={"="},
+)
+
+StringType = uCType(
+    "string",
+    assign_ops={"="},
+)
+
+BoolType = uCType(
+    "bool",
+    rel_ops={"==", "!="},
+    assign_ops={"="},
+)
+
+VoidType = uCType(
+    "void",
+)
 
 
 # TODO: add array and function types
@@ -42,3 +61,20 @@ class ArrayType(uCType):
         self.type = element_type
         self.size = size
         super().__init__(None, rel_ops={"==", "!="})
+    
+    def __str__(self):
+        return self.type.typename
+
+class FuncType(uCType):
+    def __init__(self, element_type):
+        """
+        type: Any of the uCTypes can be used as the func's type. This
+              means that there's support for nested types, like matrices.
+        size: Integer with the length of the array.
+        """
+        self.type = element_type
+        self.param_order = []
+        self.param_symtab = {}
+    
+    def __str__(self):
+        return self.type.typename

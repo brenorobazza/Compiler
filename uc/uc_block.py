@@ -102,7 +102,6 @@ class BlockVisitor(object):
     methods such as visit_BasicBlock or visit_ConditionalBlock to
     implement custom processing (similar to ASTs).
     """
-
     def visit(self, block: Block):
         while isinstance(block, Block):
             name = "visit_%s" % type(block).__name__

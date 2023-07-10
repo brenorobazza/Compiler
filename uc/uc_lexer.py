@@ -84,26 +84,100 @@ class UCLexer:
         "ID",
         # constants
         "INT_CONST",
+        "CHAR_CONST",
+        "STRING_LITERAL",
+        # Operators
+        "PLUS",
+        "MINUS",
+        "TIMES",
+        "DIVIDE",
+        "MOD",
+        "OR",
+        "AND",
+        "NOT",
+        "LT",
+        "LE",
+        "GT",
+        "GE",
+        "EQ",
+        "NE",
+        # Assignment
+        "EQUALS",
+        # Delimeters
+        "LPAREN",
+        "RPAREN",  # ( )
+        "LBRACKET",
+        "RBRACKET",  # [ ]
+        "LBRACE",
+        "RBRACE",  # { }
+        "COMMA",
+        "SEMI",  # , ;
     )
 
     #
     # Rules
     #
     t_ignore = " \t"
+    t_PLUS = r'\+'
+    t_MINUS = r'\-'
+    t_TIMES = r'\*'
+    t_DIVIDE = r'\/'
+    t_MOD = r'\%'
+    t_OR = r'\|\|'
+    t_AND = r'&&'
+    t_NOT = r'!'
+    t_LT = r'<'
+    t_LE = r'<='
+    t_GT = r'>'
+    t_GE = r'>='
+    t_EQ = r'=='
+    t_NE = r'!='
+    t_EQUALS = r'='
+    t_LPAREN = r'\('
+    t_RPAREN = r'\)'
+    t_LBRACKET = r'\['
+    t_RBRACKET = r'\]'
+    t_LBRACE = r'\{'
+    t_RBRACE = r'\}'
+    t_COMMA = r','
+    t_SEMI = r';'
 
     # Newlines
     def t_NEWLINE(self, t):
-        # include a regex here for newline
+        r'\n'
         t.lexer.lineno += t.value.count("\n")
 
     def t_ID(self, t):
-        # include a regex here for ID
+        r'[a-zA-Z_][a-zA-Z0-9_]*'
         t.type = self.keyword_map.get(t.value, "ID")
         return t
 
+    def t_INT_CONST(self, t):
+        r'0|[1-9][0-9]*'
+        return t
+
+    def t_CHAR_CONST(self, t):
+        r'\'.*?\''
+        return t
+
+    def t_STRING_LITERAL(self, t):
+        r'\".*?\"'
+        t.value = t.value[1:-1]
+        return t
+
     def t_comment(self, t):
-        # include a regex here for comment
+        r'(\/\*[\s\S]*?\*\/)|(\/\/.*)'
         t.lexer.lineno += t.value.count("\n")
+
+    def t_unterminated_comment(self, t):
+        r'(\/\*[\s\S]*)'
+        msg = "Unterminated comment"
+        self._error(msg, t)
+
+    def t_unterminated_string(self, t):
+        r'".*'
+        msg = "Unterminated string"
+        self._error(msg, t)
 
     def t_error(self, t):
         msg = "Illegal character %s" % repr(t.value[0])
