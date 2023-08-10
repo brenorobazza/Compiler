@@ -1,21 +1,21 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/sG0W3LNr)
 # Dataflow
 
-The objective of this assignment is analyse and optimize uCIR.
-Further instructions can be seen in the notebook provided with the assignment.
+The objective of this project was to create a uC compiler using Python. The 
+compiler is able to compile uC code to uCIR code, and then optimize it using 
+dataflow analysis.
 
 ## Tasks
 
-You should do the following tasks:
+We completed the following tasks
 
-- [ ] Paste your implementation of the lexer in `uc/uc_lexer.py`
-- [ ] Paste your implementation of the parser in `uc/uc_parser.py`
-- [ ] Paste your implementation of the ast in `uc/uc_ast.py`
-- [ ] Paste your implementation of the semantic analysis in `uc/uc_sema.py`
-- [ ] Paste your implementation of the type system in `uc/uc_type.py`
-- [ ] Paste your implementation of the code generation in `uc/uc_code.py`
-- [ ] Paste your implementation of basic blocks in `uc/uc_block.py`
-- [ ] Complete the implementation of the dataflow analysis in `uc/uc_analysis.py`
+- [x] Implementation of the lexer in `uc/uc_lexer.py`
+- [x] Implementation of the parser in `uc/uc_parser.py`
+- [x] Implementation of the ast in `uc/uc_ast.py`
+- [x] Implementation of the semantic analysis in `uc/uc_sema.py`
+- [x] Implementation of the type system in `uc/uc_type.py`
+- [x] Implementation of the code generation in `uc/uc_code.py`
+- [x] Implementation of basic blocks in `uc/uc_block.py`
+- [x] Implementation of the dataflow analysis in `uc/uc_analysis.py`
 
 ## Requirements
 
@@ -103,61 +103,3 @@ for the rest of the code. Run both from the root of the repo:
     isort .
     black .
 ```
-## Grading
-
-Your assignment will be evaluated in terms of correctness and performance:
-
-- Correctness: your program returns correct results for the tests;
-- Performance: your program needs to reduce the generated number of instructions by at least ten percent;
-  
-  The grade of this project is computed as P = sum(Ci)/N + B,
-  Ci = 1 if Ri/Si > 1.1, otherwise Ci = 0, 
-  where Ci represents the correctness of the test, N the total number of tests for P,
-  Ri the number of instructions in the output of the non-optimized code, 
-  and Si the number of instructions in the output of the optimized code, 
-  and B is the Bonus, computed as below.
-
-- Bonus (Extra Point): One extra point will be given proportionally to the
-  number of instructions of the optimized code when compared to the reference compiler. 
-  The bonus B = sum(Di)/N, where Di = 1, if Ri/Si > Wi, Di = 0 otherwise, 
-  where Wi is the reference compiler speedup.
-
-You can check your score by running `python tests/test_analysis.py`.
-
-Whenever you push your changes to Github, Github Actions will lint and run your
-implementation with `pytest` to test all the inputs in `tests/in-out`.
-Your grade will be automatically determined by the autograding job.
-
-To check your grade online:
-- Go to the `Actions` tab in your repo
-- Click on the latest commit
-- Click on `build` on the left panel
-    - This will show all the steps on the Autograding CI
-- Click on the `Run tests with autograding` job and scroll to the bottom
-
-You **must not** modify the test files.
-
-**Note:** The automatic grading system expects your program's output to be
-formatted correctly. For that reason, you should not add `print()` or any other
-functions that write to `stdout`, otherwise, your assignment will not be graded
-correctly.
-
-**Note:** The final grade for this assignment will be determined by the lastest
-commit before the deadline, and it will not use Github's autograding.
-An internal grading script will be run instead to prevent cheating.
-
-## Questions
-
-If you have any doubts or run into problems, please contact the TAs.    
-Happy coding! :smile: :keyboard:
-
-## Contribute
-
-Found a typo? Something is missing or broken? Have ideas for improvement? The
-instructor and the TAs would love to hear from you!
-
-## About
-
-This repository is one of the assignments handed out to the students in the course
-"MC921 - Compiler Construction" offered by the Institute of
-Computing at Unicamp.
